@@ -54,7 +54,7 @@ Scan before every push:
 python scripts/scan-secrets.py
 ```
 
-GitHub About / topics: paste from [`GITHUB-ABOUT.md`](GITHUB-ABOUT.md). See [`SANITIZE.md`](SANITIZE.md).
+GitHub About / topics: paste from [`GITHUB-ABOUT.md`](GITHUB-ABOUT.md). Longer architecture notes: [`ARCHITECTURE.md`](ARCHITECTURE.md). See [`SANITIZE.md`](SANITIZE.md).
 
 ## License
 
