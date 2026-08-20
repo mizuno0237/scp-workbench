@@ -1,0 +1,131 @@
+{
+  "plant": "CL-1",
+  "synthetic": true,
+  "calendar": [
+    "2026-W36",
+    "2026-W37",
+    "2026-W38",
+    "2026-W39"
+  ],
+  "mps": [
+    {
+      "item": "FG-LOAF-500",
+      "week": "2026-W36",
+      "qty": 1200.0,
+      "kind": "independent"
+    },
+    {
+      "item": "RM-FLOUR",
+      "week": "2026-W36",
+      "qty": 384.0,
+      "kind": "dependent",
+      "parent": "FG-LOAF-500"
+    },
+    {
+      "item": "RM-YEAST",
+      "week": "2026-W36",
+      "qty": 9.6,
+      "kind": "dependent",
+      "parent": "FG-LOAF-500"
+    },
+    {
+      "item": "FG-LOAF-500",
+      "week": "2026-W37",
+      "qty": 1400.0,
+      "kind": "independent"
+    },
+    {
+      "item": "RM-FLOUR",
+      "week": "2026-W37",
+      "qty": 448.0,
+      "kind": "dependent",
+      "parent": "FG-LOAF-500"
+    },
+    {
+      "item": "RM-YEAST",
+      "week": "2026-W37",
+      "qty": 11.2,
+      "kind": "dependent",
+      "parent": "FG-LOAF-500"
+    },
+    {
+      "item": "FG-LOAF-500",
+      "week": "2026-W38",
+      "qty": 1800.0,
+      "kind": "independent"
+    },
+    {
+      "item": "RM-FLOUR",
+      "week": "2026-W38",
+      "qty": 576.0,
+      "kind": "dependent",
+      "parent": "FG-LOAF-500"
+    },
+    {
+      "item": "RM-YEAST",
+      "week": "2026-W38",
+      "qty": 14.4,
+      "kind": "dependent",
+      "parent": "FG-LOAF-500"
+    },
+    {
+      "item": "FG-LOAF-500",
+      "week": "2026-W39",
+      "qty": 1100.0,
+      "kind": "independent"
+    },
+    {
+      "item": "RM-FLOUR",
+      "week": "2026-W39",
+      "qty": 352.0,
+      "kind": "dependent",
+      "parent": "FG-LOAF-500"
+    },
+    {
+      "item": "RM-YEAST",
+      "week": "2026-W39",
+      "qty": 8.8,
+      "kind": "dependent",
+      "parent": "FG-LOAF-500"
+    }
+  ],
+  "capacity": [
+    {
+      "resource": "OVEN-A",
+      "week": "2026-W36",
+      "hours": 60.0,
+      "capacity": 80.0,
+      "breach": false
+    },
+    {
+      "resource": "OVEN-A",
+      "week": "2026-W37",
+      "hours": 70.0,
+      "capacity": 80.0,
+      "breach": false
+    },
+    {
+      "resource": "OVEN-A",
+      "week": "2026-W38",
+      "hours": 90.0,
+      "capacity": 80.0,
+      "breach": true
+    },
+    {
+      "resource": "OVEN-A",
+      "week": "2026-W39",
+      "hours": 55.0,
+      "capacity": 80.0,
+      "breach": false
+    }
+  ],
+  "breaches": [
+    {
+      "resource": "OVEN-A",
+      "week": "2026-W38",
+      "hours": 90.0,
+      "capacity": 80.0,
+      "breach": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "synthetic": true,
+  "calendar": ["2026-W36", "2026-W37", "2026-W38", "2026-W39"],
+  "hoursPerLoaf": 0.05,
+  "independentDemand": [
+    { "item": "FG-LOAF-500", "week": "2026-W36", "qty": 1200 },
+    { "item": "FG-LOAF-500", "week": "2026-W37", "qty": 1400 },
+    { "item": "FG-LOAF-500", "week": "2026-W38", "qty": 1800 },
+    { "item": "FG-LOAF-500", "week": "2026-W39", "qty": 1100 }
+  ]
+}

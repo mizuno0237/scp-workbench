@@ -1,0 +1,13 @@
+{
+  "plant": "CL-1",
+  "plantName": "Cedarline Plant 1",
+  "synthetic": true,
+  "items": [
+    { "id": "FG-LOAF-500", "kind": "finished", "description": "500g loaf", "uom": "ea" },
+    { "id": "RM-FLOUR", "kind": "component", "description": "Wheat flour", "uom": "kg" },
+    { "id": "RM-YEAST", "kind": "component", "description": "Dry yeast", "uom": "kg" }
+  ],
+  "resources": [
+    { "id": "OVEN-A", "kind": "oven", "hoursPerWeek": 80 }
+  ]
+}

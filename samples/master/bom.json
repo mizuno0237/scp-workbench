@@ -1,0 +1,12 @@
+{
+  "synthetic": true,
+  "boms": [
+    {
+      "parent": "FG-LOAF-500",
+      "components": [
+        { "item": "RM-FLOUR", "qty": 0.32 },
+        { "item": "RM-YEAST", "qty": 0.008 }
+      ]
+    }
+  ]
+}
