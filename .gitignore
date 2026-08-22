@@ -7,3 +7,4 @@ __pycache__
 samples/output/*
 !samples/output/.gitkeep
 !samples/output/mps.json
+!samples/output/board.md

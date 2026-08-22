@@ -54,13 +54,53 @@ def load_oven(demand: dict, items: dict) -> list[dict[str, object]]:
     return loads
 
 
+def board_markdown(plan: dict[str, object]) -> str:
+    """Human-readable oven board. A supervisor can read this without opening JSON."""
+    lines = [
+        "# Cedarline Plant 1 — weekly oven board (synthetic)",
+        "",
+        f"Plant `{plan['plant']}`. Peak-week breach is the demo.",
+        "",
+        "| Week | Hours | Capacity | Status |",
+        "| --- | ---: | ---: | --- |",
+    ]
+    for row in plan["capacity"]:
+        status = "BREACH" if row["breach"] else "ok"
+        lines.append(f"| {row['week']} | {row['hours']} | {row['capacity']} | {status} |")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def propose_cut(plan: dict[str, object], demand: dict) -> list[dict[str, object]]:
+    """Cut independent demand so every week fits the oven. Do not invent extra capacity."""
+    hours_each = float(demand["hoursPerLoaf"])
+    qty_by_week = {line["week"]: float(line["qty"]) for line in demand["independentDemand"]}
+    cuts: list[dict[str, object]] = []
+    for row in plan["capacity"]:
+        if not row["breach"]:
+            continue
+        cap_qty = int(float(row["capacity"]) / hours_each)
+        current = qty_by_week[str(row["week"])]
+        cuts.append(
+            {
+                "item": "FG-LOAF-500",
+                "week": row["week"],
+                "fromQty": current,
+                "toQty": cap_qty,
+                "cutQty": current - cap_qty,
+                "reason": "oven hours exceed weekly capacity",
+            }
+        )
+    return cuts
+
+
 def run_plan(master_dir: Path, demand_path: Path) -> dict[str, object]:
     items = load_json(master_dir / "items.json")
     bom = load_json(master_dir / "bom.json")
     demand = load_json(demand_path)
     mps = explode(demand, bom)
     loads = load_oven(demand, items)
-    return {
+    plan = {
         "plant": items["plant"],
         "synthetic": True,
         "calendar": demand["calendar"],
@@ -68,6 +108,8 @@ def run_plan(master_dir: Path, demand_path: Path) -> dict[str, object]:
         "capacity": loads,
         "breaches": [row for row in loads if row["breach"]],
     }
+    plan["cuts"] = propose_cut(plan, demand)
+    return plan
 
 
 def main() -> None:
@@ -75,12 +117,16 @@ def main() -> None:
     parser.add_argument("--master", type=Path, default=Path("samples/master"))
     parser.add_argument("--demand", type=Path, default=Path("samples/demand/weekly.json"))
     parser.add_argument("--out", type=Path, default=Path("samples/output/mps.json"))
+    parser.add_argument("--board", type=Path, default=Path("samples/output/board.md"))
     args = parser.parse_args()
     plan = run_plan(args.master, args.demand)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(plan, indent=2) + "\n", encoding="utf-8")
+    args.board.write_text(board_markdown(plan), encoding="utf-8")
     print(f"wrote {args.out}")
+    print(f"wrote {args.board}")
     print(f"breaches: {len(plan['breaches'])}")
+    print(f"cuts: {len(plan['cuts'])}")
 
 
 if __name__ == "__main__":

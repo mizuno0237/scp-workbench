@@ -10,4 +10,4 @@ https://github.com/mizuno0237/scp-workbench
 
 **Topics**
 
-`supply-chain` `mps` `planning` `finite-capacity` `python`
+`supply-chain` `mps` `aps` `planning` `finite-capacity` `python`

@@ -127,5 +127,15 @@
       "capacity": 80.0,
       "breach": true
     }
+  ],
+  "cuts": [
+    {
+      "item": "FG-LOAF-500",
+      "week": "2026-W38",
+      "fromQty": 1800.0,
+      "toQty": 1600,
+      "cutQty": 200.0,
+      "reason": "oven hours exceed weekly capacity"
+    }
   ]
 }
