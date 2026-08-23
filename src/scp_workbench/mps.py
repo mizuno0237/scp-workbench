@@ -94,6 +94,25 @@ def propose_cut(plan: dict[str, object], demand: dict) -> list[dict[str, object]
     return cuts
 
 
+def cuts_markdown(plan: dict[str, object]) -> str:
+    lines = [
+        "# Cedarline Plant 1 — proposed cuts (synthetic)",
+        "",
+        "Do not invent extra oven hours. Cut independent demand instead.",
+        "",
+        "| Item | Week | From | To | Cut | Reason |",
+        "| --- | --- | ---: | ---: | ---: | --- |",
+    ]
+    for row in plan["cuts"]:
+        lines.append(
+            f"| {row['item']} | {row['week']} | {row['fromQty']} | {row['toQty']} | {row['cutQty']} | {row['reason']} |"
+        )
+    if not plan["cuts"]:
+        lines.append("| — | — | — | — | — | no breach |")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def run_plan(master_dir: Path, demand_path: Path) -> dict[str, object]:
     items = load_json(master_dir / "items.json")
     bom = load_json(master_dir / "bom.json")
@@ -118,13 +137,16 @@ def main() -> None:
     parser.add_argument("--demand", type=Path, default=Path("samples/demand/weekly.json"))
     parser.add_argument("--out", type=Path, default=Path("samples/output/mps.json"))
     parser.add_argument("--board", type=Path, default=Path("samples/output/board.md"))
+    parser.add_argument("--cuts", type=Path, default=Path("samples/output/cuts.md"))
     args = parser.parse_args()
     plan = run_plan(args.master, args.demand)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(plan, indent=2) + "\n", encoding="utf-8")
     args.board.write_text(board_markdown(plan), encoding="utf-8")
+    args.cuts.write_text(cuts_markdown(plan), encoding="utf-8")
     print(f"wrote {args.out}")
     print(f"wrote {args.board}")
+    print(f"wrote {args.cuts}")
     print(f"breaches: {len(plan['breaches'])}")
     print(f"cuts: {len(plan['cuts'])}")
 

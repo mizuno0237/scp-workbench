@@ -31,16 +31,16 @@ Cedarline Plant 1 bakes `FG-LOAF-500`. Week 38 needs 90 oven hours against 80 â€
 python -m pip install pytest
 python -m pytest
 $env:PYTHONPATH="src"
-python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md
+python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md --cuts samples/output/cuts.md
 ```
 
 On bash:
 
 ```bash
-PYTHONPATH=src python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md
+PYTHONPATH=src python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md --cuts samples/output/cuts.md
 ```
 
-`board.md` is the supervisor view. `mps.json` also has a `cuts[]` that drops week 38 from 1800 to 1600 loaves so the oven fits. A later slice can hang the same numbers on [pixi-gantt](https://github.com/mizuno0237/pixi-gantt).
+`board.md` is the supervisor view. `cuts.md` is the proposed loaf cut for week 38. A later slice can hang the same numbers on [pixi-gantt](https://github.com/mizuno0237/pixi-gantt).
 
 ## What is not in this snapshot
 

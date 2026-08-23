@@ -4,7 +4,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from scp_workbench.mps import board_markdown, run_plan
+from scp_workbench.mps import board_markdown, cuts_markdown, run_plan
 
 MASTER = ROOT / "samples" / "master"
 DEMAND = ROOT / "samples" / "demand" / "weekly.json"
@@ -42,3 +42,9 @@ def test_cut_brings_week_38_down_to_oven_hours() -> None:
     assert cut["fromQty"] == 1800
     assert cut["toQty"] == 1600
     assert cut["cutQty"] == 200
+
+
+def test_cuts_markdown_names_week_38() -> None:
+    text = cuts_markdown(run_plan(MASTER, DEMAND))
+    assert "2026-W38" in text
+    assert "200" in text
