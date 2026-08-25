@@ -9,3 +9,4 @@ samples/output/*
 !samples/output/mps.json
 !samples/output/board.md
 !samples/output/cuts.md
+!samples/output/pegging.md

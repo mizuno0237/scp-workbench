@@ -117,6 +117,25 @@ def cuts_markdown(plan: dict[str, object]) -> str:
     return "\n".join(lines)
 
 
+def pegging_markdown(plan: dict[str, object]) -> str:
+    """Dependent qty by week. Flour and yeast are pegged to the loaf, not guessed."""
+    lines = [
+        "# Cedarline Plant 1 — component pegging (synthetic)",
+        "",
+        "Dependent demand follows the BOM. No live warehouse on-hand.",
+        "",
+        "| Item | Week | Qty | Parent |",
+        "| --- | --- | ---: | --- |",
+    ]
+    rows = [row for row in plan["mps"] if row["kind"] == "dependent"]
+    for row in rows:
+        lines.append(f"| {row['item']} | {row['week']} | {row['qty']} | {row['parent']} |")
+    if not rows:
+        lines.append("| — | — | — | no dependent demand |")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def run_plan(master_dir: Path, demand_path: Path) -> dict[str, object]:
     items = load_json(master_dir / "items.json")
     bom = load_json(master_dir / "bom.json")
@@ -142,15 +161,18 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("samples/output/mps.json"))
     parser.add_argument("--board", type=Path, default=Path("samples/output/board.md"))
     parser.add_argument("--cuts", type=Path, default=Path("samples/output/cuts.md"))
+    parser.add_argument("--peg", type=Path, default=Path("samples/output/pegging.md"))
     args = parser.parse_args()
     plan = run_plan(args.master, args.demand)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(plan, indent=2) + "\n", encoding="utf-8")
     args.board.write_text(board_markdown(plan), encoding="utf-8")
     args.cuts.write_text(cuts_markdown(plan), encoding="utf-8")
+    args.peg.write_text(pegging_markdown(plan), encoding="utf-8")
     print(f"wrote {args.out}")
     print(f"wrote {args.board}")
     print(f"wrote {args.cuts}")
+    print(f"wrote {args.peg}")
     print(f"breaches: {len(plan['breaches'])}")
     print(f"cuts: {len(plan['cuts'])}")
 
