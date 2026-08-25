@@ -42,12 +42,14 @@ def load_oven(demand: dict, items: dict) -> list[dict[str, object]]:
     loads = []
     for week in demand["calendar"]:
         hours = round(by_week[week], 2)
+        utilization = round(100.0 * hours / cap, 1) if cap else 0.0
         loads.append(
             {
                 "resource": "OVEN-A",
                 "week": week,
                 "hours": hours,
                 "capacity": cap,
+                "utilizationPct": utilization,
                 "breach": hours > cap,
             }
         )
@@ -61,12 +63,14 @@ def board_markdown(plan: dict[str, object]) -> str:
         "",
         f"Plant `{plan['plant']}`. Peak-week breach is the demo.",
         "",
-        "| Week | Hours | Capacity | Status |",
-        "| --- | ---: | ---: | --- |",
+        "| Week | Hours | Capacity | Util % | Status |",
+        "| --- | ---: | ---: | ---: | --- |",
     ]
     for row in plan["capacity"]:
         status = "BREACH" if row["breach"] else "ok"
-        lines.append(f"| {row['week']} | {row['hours']} | {row['capacity']} | {status} |")
+        lines.append(
+            f"| {row['week']} | {row['hours']} | {row['capacity']} | {row['utilizationPct']} | {status} |"
+        )
     lines.append("")
     return "\n".join(lines)
 

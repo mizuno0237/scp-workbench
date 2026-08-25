@@ -44,6 +44,15 @@ def test_cut_brings_week_38_down_to_oven_hours() -> None:
     assert cut["cutQty"] == 200
 
 
+def test_week_38_utilization_exceeds_one_hundred() -> None:
+    plan = run_plan(MASTER, DEMAND)
+    peak = next(row for row in plan["capacity"] if row["week"] == "2026-W38")
+    quiet = next(row for row in plan["capacity"] if row["week"] == "2026-W36")
+    assert peak["utilizationPct"] == 112.5
+    assert quiet["utilizationPct"] == 75.0
+    assert "112.5" in board_markdown(plan)
+
+
 def test_cuts_markdown_names_week_38() -> None:
     text = cuts_markdown(run_plan(MASTER, DEMAND))
     assert "2026-W38" in text

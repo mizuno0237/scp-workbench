@@ -95,6 +95,7 @@
       "week": "2026-W36",
       "hours": 60.0,
       "capacity": 80.0,
+      "utilizationPct": 75.0,
       "breach": false
     },
     {
@@ -102,6 +103,7 @@
       "week": "2026-W37",
       "hours": 70.0,
       "capacity": 80.0,
+      "utilizationPct": 87.5,
       "breach": false
     },
     {
@@ -109,6 +111,7 @@
       "week": "2026-W38",
       "hours": 90.0,
       "capacity": 80.0,
+      "utilizationPct": 112.5,
       "breach": true
     },
     {
@@ -116,6 +119,7 @@
       "week": "2026-W39",
       "hours": 55.0,
       "capacity": 80.0,
+      "utilizationPct": 68.8,
       "breach": false
     }
   ],
@@ -125,6 +129,7 @@
       "week": "2026-W38",
       "hours": 90.0,
       "capacity": 80.0,
+      "utilizationPct": 112.5,
       "breach": true
     }
   ],
