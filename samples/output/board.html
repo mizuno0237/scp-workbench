@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Cedarline Plant 1 — oven board (synthetic)</title>
+  <style>
+    body { font: 15px/1.45 Georgia, serif; margin: 32px; background: #f4f0e6; color: #1f241e; }
+    h1 { font-size: 22px; }
+    .note { color: #5c6158; }
+    .week { display: grid; grid-template-columns: 7rem 1fr 14rem; gap: 10px; align-items: center; margin: 8px 0; }
+    .track { background: #ddd6c4; height: 18px; border-radius: 2px; }
+    .track i { display: block; height: 18px; }
+    .ok { background: #3F7D6A; }
+    .breach { background: #B5462A; }
+    table { border-collapse: collapse; margin-top: 18px; width: 100%; }
+    th, td { border: 1px solid #cfc6b0; padding: 6px 8px; text-align: left; }
+    th { background: #ece6d4; }
+  </style>
+</head>
+<body>
+  <p class="note">Synthetic plant · finite capacity is the demo · not a live bakery</p>
+  <h1>Cedarline Plant 1 — weekly oven board</h1>
+  <p>Plant <code>CL-1</code>. Week 38 is the breach (90 h vs 80 h).</p>
+  <div class="week"><span class="wk">2026-W36</span><div class="track"><i class="ok" style="width:75.0%"></i></div><span class="num">60.0 / 80.0 h · 75.0%</span></div><div class="week"><span class="wk">2026-W37</span><div class="track"><i class="ok" style="width:87.5%"></i></div><span class="num">70.0 / 80.0 h · 87.5%</span></div><div class="week"><span class="wk">2026-W38</span><div class="track"><i class="breach" style="width:112.5%"></i></div><span class="num">90.0 / 80.0 h · 112.5%</span></div><div class="week"><span class="wk">2026-W39</span><div class="track"><i class="ok" style="width:68.8%"></i></div><span class="num">55.0 / 80.0 h · 68.8%</span></div>
+  <h2>Proposed cuts</h2>
+  <table><thead><tr><th>Item</th><th>Week</th><th>From</th><th>To</th><th>Cut</th></tr></thead><tbody><tr><td>FG-LOAF-500</td><td>2026-W38</td><td>1800.0</td><td>1600</td><td>200.0</td></tr></tbody></table>
+  <h2>Component pegging</h2>
+  <table><thead><tr><th>Item</th><th>Week</th><th>Qty</th><th>Parent</th></tr></thead><tbody><tr><td>RM-FLOUR</td><td>2026-W36</td><td>384.0</td><td>FG-LOAF-500</td></tr><tr><td>RM-YEAST</td><td>2026-W36</td><td>9.6</td><td>FG-LOAF-500</td></tr><tr><td>RM-FLOUR</td><td>2026-W37</td><td>448.0</td><td>FG-LOAF-500</td></tr><tr><td>RM-YEAST</td><td>2026-W37</td><td>11.2</td><td>FG-LOAF-500</td></tr><tr><td>RM-FLOUR</td><td>2026-W38</td><td>576.0</td><td>FG-LOAF-500</td></tr><tr><td>RM-YEAST</td><td>2026-W38</td><td>14.4</td><td>FG-LOAF-500</td></tr><tr><td>RM-FLOUR</td><td>2026-W39</td><td>352.0</td><td>FG-LOAF-500</td></tr><tr><td>RM-YEAST</td><td>2026-W39</td><td>8.8</td><td>FG-LOAF-500</td></tr></tbody></table>
+</body>
+</html>

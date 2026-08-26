@@ -28,20 +28,20 @@ Cedarline Plant 1 bakes `FG-LOAF-500`. Week 38 needs 90 oven hours against 80 â€
 
 ## Quick start
 
-```bash
+```powershell
 python -m pip install -r requirements-dev.txt
 python -m pytest
 $env:PYTHONPATH="src"
-python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md --cuts samples/output/cuts.md --peg samples/output/pegging.md
+python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md --cuts samples/output/cuts.md --peg samples/output/pegging.md --html samples/output/board.html --gantt samples/output/gantt.json
 ```
 
 On bash:
 
 ```bash
-PYTHONPATH=src python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md --cuts samples/output/cuts.md --peg samples/output/pegging.md
+PYTHONPATH=src python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md --cuts samples/output/cuts.md --peg samples/output/pegging.md --html samples/output/board.html --gantt samples/output/gantt.json
 ```
 
-`board.md` is the supervisor view. `cuts.md` is the proposed loaf cut for week 38. `pegging.md` is flour and yeast by week. A later slice can hang the same numbers on [pixi-gantt](https://github.com/mizuno0237/pixi-gantt).
+`board.md` is the supervisor view. `board.html` is the same numbers in a browser. `gantt.json` is the pixi-gantt model for OVEN-A. `cuts.md` is the proposed loaf cut for week 38. `pegging.md` is flour and yeast by week.
 
 ## What is not in this snapshot
 

@@ -27,7 +27,7 @@ A planner has to name independent demand, explode the BOM, and see that week 38 
 - Not a customer plant or live BOM
 - Not a GitLab mirror
 
-A later slice can draw the same numbers on [pixi-gantt](https://github.com/mizuno0237/pixi-gantt).
+A later slice can hang `samples/output/gantt.json` on [pixi-gantt](https://github.com/mizuno0237/pixi-gantt). Open `samples/output/board.html` for the finite-capacity board without Node.
 
 ## Interview line
 

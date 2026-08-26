@@ -1,0 +1,72 @@
+{
+  "rows": [
+    {
+      "id": "oven-a",
+      "label": "OVEN-A  Cedarline Plant 1",
+      "startTime": 1725148800000,
+      "startLabel": "2026-W36",
+      "laneCount": 1,
+      "height": 40
+    }
+  ],
+  "segments": [
+    {
+      "id": "seg-2026-W36",
+      "blockId": "block-2026-W36",
+      "blockStartTime": 1725148800000,
+      "blockEndTime": 1725753600000,
+      "rowId": "oven-a",
+      "startTime": 1725148800000,
+      "endTime": 1725753600000,
+      "label": "2026-W36  60.0h / 80.0h",
+      "color": "#3F7D6A",
+      "taskType": "OVEN",
+      "layer": 0
+    },
+    {
+      "id": "seg-2026-W37",
+      "blockId": "block-2026-W37",
+      "blockStartTime": 1725753600000,
+      "blockEndTime": 1726358400000,
+      "rowId": "oven-a",
+      "startTime": 1725753600000,
+      "endTime": 1726358400000,
+      "label": "2026-W37  70.0h / 80.0h",
+      "color": "#3F7D6A",
+      "taskType": "OVEN",
+      "layer": 0
+    },
+    {
+      "id": "seg-2026-W38",
+      "blockId": "block-2026-W38",
+      "blockStartTime": 1726358400000,
+      "blockEndTime": 1726963200000,
+      "rowId": "oven-a",
+      "startTime": 1726358400000,
+      "endTime": 1726963200000,
+      "label": "2026-W38  90.0h / 80.0h",
+      "color": "#B5462A",
+      "taskType": "OVEN",
+      "layer": 0
+    },
+    {
+      "id": "seg-2026-W39",
+      "blockId": "block-2026-W39",
+      "blockStartTime": 1726963200000,
+      "blockEndTime": 1727568000000,
+      "rowId": "oven-a",
+      "startTime": 1726963200000,
+      "endTime": 1727568000000,
+      "label": "2026-W39  55.0h / 80.0h",
+      "color": "#3F7D6A",
+      "taskType": "OVEN",
+      "layer": 0
+    }
+  ],
+  "links": [],
+  "timeRange": {
+    "min": 1724544000000,
+    "max": 1728172800000
+  },
+  "synthetic": true
+}

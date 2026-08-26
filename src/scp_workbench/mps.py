@@ -136,6 +136,104 @@ def pegging_markdown(plan: dict[str, object]) -> str:
     return "\n".join(lines)
 
 
+def oven_gantt_model(plan: dict[str, object]) -> dict[str, object]:
+    """Weekly oven load as a pixi-gantt model. One bar per week on OVEN-A."""
+    week_ms = 7 * 24 * 3_600_000
+    origin = 1_725_148_800_000
+    loads = list(plan["capacity"])
+    segments = []
+    for index, row in enumerate(loads):
+        start = origin + index * week_ms
+        end = start + week_ms
+        color = "#B5462A" if row["breach"] else "#3F7D6A"
+        segments.append(
+            {
+                "id": f"seg-{row['week']}",
+                "blockId": f"block-{row['week']}",
+                "blockStartTime": start,
+                "blockEndTime": end,
+                "rowId": "oven-a",
+                "startTime": start,
+                "endTime": end,
+                "label": f"{row['week']}  {row['hours']}h / {row['capacity']}h",
+                "color": color,
+                "taskType": "OVEN",
+                "layer": 0,
+            }
+        )
+    last_end = origin + max(len(loads), 1) * week_ms
+    return {
+        "rows": [
+            {
+                "id": "oven-a",
+                "label": "OVEN-A  Cedarline Plant 1",
+                "startTime": origin,
+                "startLabel": str(loads[0]["week"]) if loads else "",
+                "laneCount": 1,
+                "height": 40,
+            }
+        ],
+        "segments": segments,
+        "links": [],
+        "timeRange": {"min": origin - week_ms, "max": last_end + week_ms},
+        "synthetic": True,
+    }
+
+
+def board_html(plan: dict[str, object]) -> str:
+    """Standalone supervisor page. Open in a browser — no npm, no live factory."""
+    bars = []
+    for row in plan["capacity"]:
+        width = min(float(row["utilizationPct"]), 140)
+        klass = "breach" if row["breach"] else "ok"
+        bars.append(
+            f'<div class="week"><span class="wk">{row["week"]}</span>'
+            f'<div class="track"><i class="{klass}" style="width:{width}%"></i></div>'
+            f'<span class="num">{row["hours"]} / {row["capacity"]} h · {row["utilizationPct"]}%</span></div>'
+        )
+    cuts = "".join(
+        f"<tr><td>{row['item']}</td><td>{row['week']}</td><td>{row['fromQty']}</td>"
+        f"<td>{row['toQty']}</td><td>{row['cutQty']}</td></tr>"
+        for row in plan["cuts"]
+    ) or "<tr><td colspan='5'>no breach</td></tr>"
+    peg = "".join(
+        f"<tr><td>{row['item']}</td><td>{row['week']}</td><td>{row['qty']}</td><td>{row['parent']}</td></tr>"
+        for row in plan["mps"]
+        if row["kind"] == "dependent"
+    )
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Cedarline Plant 1 — oven board (synthetic)</title>
+  <style>
+    body {{ font: 15px/1.45 Georgia, serif; margin: 32px; background: #f4f0e6; color: #1f241e; }}
+    h1 {{ font-size: 22px; }}
+    .note {{ color: #5c6158; }}
+    .week {{ display: grid; grid-template-columns: 7rem 1fr 14rem; gap: 10px; align-items: center; margin: 8px 0; }}
+    .track {{ background: #ddd6c4; height: 18px; border-radius: 2px; }}
+    .track i {{ display: block; height: 18px; }}
+    .ok {{ background: #3F7D6A; }}
+    .breach {{ background: #B5462A; }}
+    table {{ border-collapse: collapse; margin-top: 18px; width: 100%; }}
+    th, td {{ border: 1px solid #cfc6b0; padding: 6px 8px; text-align: left; }}
+    th {{ background: #ece6d4; }}
+  </style>
+</head>
+<body>
+  <p class="note">Synthetic plant · finite capacity is the demo · not a live bakery</p>
+  <h1>Cedarline Plant 1 — weekly oven board</h1>
+  <p>Plant <code>{plan["plant"]}</code>. Week 38 is the breach (90 h vs 80 h).</p>
+  {''.join(bars)}
+  <h2>Proposed cuts</h2>
+  <table><thead><tr><th>Item</th><th>Week</th><th>From</th><th>To</th><th>Cut</th></tr></thead><tbody>{cuts}</tbody></table>
+  <h2>Component pegging</h2>
+  <table><thead><tr><th>Item</th><th>Week</th><th>Qty</th><th>Parent</th></tr></thead><tbody>{peg}</tbody></table>
+</body>
+</html>
+"""
+
+
 def run_plan(master_dir: Path, demand_path: Path) -> dict[str, object]:
     items = load_json(master_dir / "items.json")
     bom = load_json(master_dir / "bom.json")
@@ -162,6 +260,8 @@ def main() -> None:
     parser.add_argument("--board", type=Path, default=Path("samples/output/board.md"))
     parser.add_argument("--cuts", type=Path, default=Path("samples/output/cuts.md"))
     parser.add_argument("--peg", type=Path, default=Path("samples/output/pegging.md"))
+    parser.add_argument("--html", type=Path, default=Path("samples/output/board.html"))
+    parser.add_argument("--gantt", type=Path, default=Path("samples/output/gantt.json"))
     args = parser.parse_args()
     plan = run_plan(args.master, args.demand)
     args.out.parent.mkdir(parents=True, exist_ok=True)
@@ -169,10 +269,14 @@ def main() -> None:
     args.board.write_text(board_markdown(plan), encoding="utf-8")
     args.cuts.write_text(cuts_markdown(plan), encoding="utf-8")
     args.peg.write_text(pegging_markdown(plan), encoding="utf-8")
+    args.html.write_text(board_html(plan), encoding="utf-8")
+    args.gantt.write_text(json.dumps(oven_gantt_model(plan), indent=2) + "\n", encoding="utf-8")
     print(f"wrote {args.out}")
     print(f"wrote {args.board}")
     print(f"wrote {args.cuts}")
     print(f"wrote {args.peg}")
+    print(f"wrote {args.html}")
+    print(f"wrote {args.gantt}")
     print(f"breaches: {len(plan['breaches'])}")
     print(f"cuts: {len(plan['cuts'])}")
 

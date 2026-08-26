@@ -10,3 +10,5 @@ samples/output/*
 !samples/output/board.md
 !samples/output/cuts.md
 !samples/output/pegging.md
+!samples/output/board.html
+!samples/output/gantt.json

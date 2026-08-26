@@ -4,7 +4,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from scp_workbench.mps import board_markdown, cuts_markdown, pegging_markdown, run_plan
+from scp_workbench.mps import board_html, board_markdown, cuts_markdown, oven_gantt_model, pegging_markdown, run_plan
 
 MASTER = ROOT / "samples" / "master"
 DEMAND = ROOT / "samples" / "demand" / "weekly.json"
@@ -63,3 +63,17 @@ def test_pegging_table_explodes_flour_for_week_36() -> None:
     text = pegging_markdown(run_plan(MASTER, DEMAND))
     assert "| RM-FLOUR | 2026-W36 | 384.0 | FG-LOAF-500 |" in text
     assert "| RM-YEAST | 2026-W38 |" in text
+
+
+def test_html_board_marks_week_38_breach() -> None:
+    html = board_html(run_plan(MASTER, DEMAND))
+    assert "2026-W38" in html
+    assert "class=\"breach\"" in html
+    assert "FG-LOAF-500" in html
+
+
+def test_gantt_model_has_one_breach_bar() -> None:
+    model = oven_gantt_model(run_plan(MASTER, DEMAND))
+    assert len(model["segments"]) == 4
+    breach = next(row for row in model["segments"] if "W38" in row["id"])
+    assert breach["color"] == "#B5462A"
