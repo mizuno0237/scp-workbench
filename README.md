@@ -5,6 +5,7 @@ A **public supply-chain planning demo**: synthetic master data in, a weekly MPS 
 This is **not** a copy of an internal SCP product. Module names (MPS / MDS / DCP / ODS) match how planning suites are split; the sample plant is fictional.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/mizuno0237/scp-workbench/actions/workflows/ci.yml/badge.svg)](https://github.com/mizuno0237/scp-workbench/actions/workflows/ci.yml)
 
 ## Pipeline
 
@@ -28,7 +29,7 @@ Cedarline Plant 1 bakes `FG-LOAF-500`. Week 38 needs 90 oven hours against 80 â€
 ## Quick start
 
 ```bash
-python -m pip install pytest
+python -m pip install -r requirements-dev.txt
 python -m pytest
 $env:PYTHONPATH="src"
 python -m scp_workbench --out samples/output/mps.json --board samples/output/board.md --cuts samples/output/cuts.md --peg samples/output/pegging.md
